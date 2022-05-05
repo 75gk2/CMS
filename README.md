@@ -6,7 +6,7 @@ Zadanie na aplikacje internetowe
 # Start sfelta
 
 1. cd CMS/svelte-app
-2. npm run install //to chyba tylko za pierwszym razem
+2. npm install //to chyba tylko za pierwszym razem
 3. npm run dev
 
 
