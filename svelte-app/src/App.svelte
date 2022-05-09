@@ -1,15 +1,11 @@
 <script>
-	import Header from './Header.svelte';
-	import * as data from './data.json'
-	import Slider from "./Slider.svelte";
-	import News from "./News.svelte";
-	import Footer from "./Footer.svelte";
-
+    import Website from "./website/Website.svelte";
+    import MainForm from "./form/MainForm.svelte";
+    import * as data from './data.json'
+    console.log(data)
 </script>
 
 <main>
-	<Header headerData = {data.header}/>
-	<Slider sliderData = {data.content.slider}></Slider>
-	<News newsData = {data.content.news}></News>
-	<Footer footerData = {data.footer}></Footer>
+<!--    <Website data={data}/>-->
+    <MainForm data={data}></MainForm>
 </main>
