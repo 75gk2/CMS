@@ -36,4 +36,3 @@
 <p>
     {JSON.stringify($user, 0, 2)}
 </p>
-
