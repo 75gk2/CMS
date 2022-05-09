@@ -11,5 +11,5 @@
 	<Header headerData = {data.header}/>
 	<Slider sliderData = {data.content.slider}></Slider>
 	<News newsData = {data.content.news}></News>
-	<Footer footerData = {data.footer}></Footer>
+	<Footer footerData = {data.footer}>xdxd</Footer>
 </main>
