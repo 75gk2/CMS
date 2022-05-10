@@ -8,5 +8,5 @@
 
 
 <!--<HeaderForm headerData = {data.header}></HeaderForm>-->
-<!--<SliderForm></SliderForm>-->
+<SliderForm sliderData = {data.content.slider}></SliderForm>
 <NewsForm newsData = {data.content.news}></NewsForm>
