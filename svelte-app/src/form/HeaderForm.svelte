@@ -30,13 +30,15 @@
     const newsFormValues = writable({
         text: "",
         href: "",
-        position: links.length + 1
+        position: links.length + 1,
+        dropDown: false
     })
 
     function newsFormSubmit() {
         const obj = {
             text: $newsFormValues.text,
-            href: $newsFormValues.href
+            href: $newsFormValues.href,
+            dropDown: $newsFormValues.dropDown
         }
         let position = $newsFormValues.position
 
@@ -49,6 +51,7 @@
         console.log(links, links.length + 1)
         $newsFormValues.text = ""
         $newsFormValues.href = ""
+        $newsFormValues.dropDown = false
         $newsFormValues.position = links.length + 1
     }
 
@@ -59,6 +62,7 @@
         formStatus = i
         $newsFormValues.text = obj.text
         $newsFormValues.href = obj.href
+        $newsFormValues.dropDown = obj.dropDown ? true : false
         $newsFormValues.position = i + 1
     }
 
@@ -71,13 +75,14 @@
     function cancel() {
         $newsFormValues.text = ""
         $newsFormValues.href = ""
+        $newsFormValues.dropDown = false
         $newsFormValues.position = links.length + 1
         formStatus = -1
     }
 </script>
 <div class="border border-gray-300 m-10 px-10 pb-10">
-    <h1 class = "p-5">Header Form</h1>
-    <div class = "flex flex-row">
+    <h1 class="p-5">Header Form</h1>
+    <div class="flex flex-row">
         <form on:submit|preventDefault={()=>newsFormSubmit()} class="w-1/3  border border-gray-300">
             <h3 class="m-4">
                 {#if formStatus === -1}
@@ -99,6 +104,13 @@
                                                                        bind:value={$newsFormValues.position}
                                                                        class=" form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
             </label></div>
+            <div class="m-4">
+                <input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                       type="checkbox" id="flexCheckDefault" bind:value={$newsFormValues.dropDown}>
+                <label class="form-check-label inline-block text-gray-800" for="flexCheckDefault">
+                    Drop-Down
+                </label>
+            </div>
 
 
             <div class="flex flex-row">
@@ -126,12 +138,14 @@
             <tr>
                 <th class="border border-slate-300">text</th>
                 <th class="border border-slate-300">href</th>
+                <th class="border border-slate-300">dropDown</th>
                 <th class="border border-slate-300">edit</th>
             </tr>
             {#each links as content, i}
                 <tr>
                     <td class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{content.text}</td>
                     <td class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{content.href}</td>
+                    <td class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">{content.dropDown?true:false}</td>
                     <td class="border border-slate-300 text-sm text-gray-900 font-light px-3 py-1 whitespace-nowrap">
                         <div class="flex flex-row justify-around">
                             <button on:click={()=>edit(i)} class="edit px-4 uppercase">edit</button>

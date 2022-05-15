@@ -44,8 +44,8 @@
         if (formStatus !== -1) del(formStatus);
 
         console.log(file)
-        Net.sendPhoto(obj.src, file)
-        console.log(file)
+
+        if(file != null) Net.sendPhoto(obj.src, file)
 
 
         file = null
@@ -86,6 +86,10 @@
     }
 
     let file;
+
+    function onFileSelected(e) {
+        file = e.target.files[0];
+    }
 </script>
 
 <div class="border border-gray-300 m-10 px-10 pb-10">
@@ -117,7 +121,9 @@
             </div>
             <div class="m-4">
                 <label>src
-                    <input type="file" accept=".jpg, .jpeg, .png" bind:value={$newsFormValues.src}
+                    <input type="file" accept=".jpg, .jpeg, .png"
+                           on:change={(e)=>onFileSelected(e)}
+                           bind:value={$newsFormValues.src}
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="formFile"></label>
             </div>

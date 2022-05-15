@@ -16,21 +16,17 @@ export class Net {
     }
 
     static sendPhoto(src, file) {
-        console.log("działa")
-        const res = (async () => {
-            const bytes = new TextEncoder().encode(file);
-            const blob = new Blob([bytes], {
-                type: "application/octet-stream"
-            });
+        const blob = new Blob([file], {
+            type: "application/octet-stream"
+        });
 
-            let data = new FormData()
-            data.append('file', blob, "file")
+        let data = new FormData()
+        data.append('file', blob, "file")
 
-            alert()
-            fetch('http://127.0.0.1:5000/gfx/insert?name=' + src, {
-                method: "POST",
-                body: data
-            })
+        alert()
+        let res = fetch('http://127.0.0.1:5000/gfx/insert?name=' + src, {
+            method: "POST",
+            body: data
         })
         return res
     }

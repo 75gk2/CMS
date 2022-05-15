@@ -65,6 +65,17 @@ def get_file_from_db(name):
     except:
         return False
 
+def count_files_by_name(name):
+    connection = sqlite3.Connection("CMS_REPO.sqlite")
+    cursor = connection.cursor()
+    cursor.execute("""SELECT COUNT(*) FROM FILES WHERE name = ?""", (name,))
+    result = cursor.fetchall()
+    connection.close()
+    try:
+        return result[0][0]
+    except:
+        return False
+
 
 def get_data_json():
     return get_file_from_db("data.json")[0]
@@ -116,7 +127,10 @@ def insert_gfx():
     files = request.files
     file = files.get('file')
     try:
-        save_file_to_repo(name, "photo", file.read())
+        if count_files_by_name(name) == 0:
+            save_file_to_repo(name, "photo", file.read())
+        else:
+            update_file_in_repo(name, "photo", file.read())
         return Response(status=200)
     except Exception as ex:
         return Response(status=500)
