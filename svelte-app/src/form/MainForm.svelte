@@ -1,12 +1,23 @@
 <script>
     import NewsForm from "./NewsForm.svelte";
 
-    export let data;
+    const data_json = (async () => {
+        const response = await fetch('http://127.0.0.1:5000/data')
+        return await response.json()
+    })()
+
+    data_json.then((d)=>FormNet.json = d)
+
     import HeaderForm from "./HeaderForm.svelte";
     import SliderForm from "./SliderForm.svelte";
+    import {FormNet} from "../net";
+
 </script>
-
-
-<!--<HeaderForm headerData = {data.header}></HeaderForm>-->
-<SliderForm sliderData = {data.content.slider}></SliderForm>
-<NewsForm newsData = {data.content.news}></NewsForm>
+{#await data_json}
+    Loading...
+{:then data}
+    <HeaderForm formNet={FormNet} headerData = {data.header}></HeaderForm>
+    <SliderForm formNet={FormNet} sliderData={data.content.slider}></SliderForm>
+    <NewsForm formNet={FormNet} newsData={data.content.news}></NewsForm>
+    <button on:load = {()=>{FormNet.json = data}} on:click={()=>FormNet.updateData()}>UPDATE</button>
+{/await}

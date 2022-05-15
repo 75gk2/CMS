@@ -1,16 +1,19 @@
 <script>
-    import Router from 'svelte-spa-router'
+    import {Route, Router, Link} from "svelte-navigator";
     import Website from "./website/Website.svelte";
     import MainForm from "./form/MainForm.svelte";
-    import * as data from './data.json'
-    console.log(data)
+    import NewsForm from "./form/NewsForm.svelte";
+
+    // import * as data from './data.json'
+    // console.log(data)
+
+
 </script>
-
-<main>
-<!--    <Website data={data}/>-->
-    <MainForm data={data}></MainForm>
-</main>
-
-<!--<Router routes = {{-->
-<!--    "/": MainForm-->
-<!--}}/>-->
+<Router>
+    <nav>
+        <Link to="/">Home</Link>
+        <Link to="/form">Form</Link>
+    </nav>
+    <Route path="/" component="{Website}"/>
+    <Route path="/form" component="{MainForm}"/>
+</Router>

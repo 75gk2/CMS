@@ -3,11 +3,21 @@
     import Slider from "./Slider.svelte";
     import News from "./News.svelte";
     import Footer from "./Footer.svelte";
-    export let data;
+
+    const data_json = (async () => {
+        const response = await fetch('http://127.0.0.1:5000/data')
+        const json =  await response.json()
+        console.log(json)
+        return json
+    })()
+
 </script>
 
-
-<Header headerData={data.header}/>
-<Slider sliderData={data.content.slider}></Slider>
-<News newsData={data.content.news}></News>
-<Footer footerData={data.footer}></Footer>
+{#await data_json}
+    Loading...
+{:then data}
+    <Header headerData={data.header}/>
+    <Slider sliderData={data.content.slider}></Slider>
+    <News newsData={data.content.news}></News>
+    <Footer footerData={data.footer}></Footer>
+{/await}

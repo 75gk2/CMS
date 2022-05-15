@@ -3,6 +3,10 @@
     import 'tw-elements'
 
     export let newsData;
+    export let formNet;
+
+    formNet.news = newsData
+
 
 
     function swapUp(i) {
@@ -75,7 +79,9 @@
     }
 </script>
 
-<div class="flex flex-row border border-gray-300 m-10 p-10">
+<div class="border border-gray-300 m-10 px-10 pb-10">
+    <h1 class = "p-5">News Form</h1>
+    <div class = "flex flex-row">
     <form on:submit|preventDefault={()=>newsFormSubmit()} class="w-1/3  border border-gray-300">
         <h3 class="m-4">
             {#if formStatus === -1}
@@ -84,19 +90,24 @@
                 Editing element (title:{newsData[formStatus].title}, href: {newsData[formStatus].href}):
             {/if}
         </h3>
-        <div class="m-4"><label>title</label><input type="text" bind:value={$newsFormValues.title}
-                                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
+        <div class="m-4"><label for="titleInput">title<input id="titleInput" type="text"
+                                                             bind:value={$newsFormValues.title}
+                                                             class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/></label>
         </div>
-        <div class="m-4"><label>content</label><textarea type="text" bind:value={$newsFormValues.content}
-                                                         class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"></textarea>
-        </div>
-        <div class="m-4"><label>href</label><input type="text" bind:value={$newsFormValues.href}
-                                                   class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
-        </div>
-        <div class="m-4"><label>position</label><input type="number" min="1" max={formStatus===-1?newsData.length+1:newsData.length}
-                                                       bind:value={$newsFormValues.position}
-                                                       class=" form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
-        </div>
+        <div class="m-4"><label for="contentInput">content<textarea id="contentInput" type="text"
+                                                                    bind:value={$newsFormValues.content}
+                                                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"></textarea>
+        </label></div>
+        <div class="m-4"><label for="hrefInput">href<input id="hrefInput" type="text" bind:value={$newsFormValues.href}
+                                                           class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
+        </label></div>
+        <div class="m-4"><label for="positionInput">position<input id="positionInput" type="number" min="1"
+                                                                   max={formStatus===-1?newsData.length+1:newsData.length}
+                                                                   bind:value={$newsFormValues.position}
+                                                                   class=" form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
+        </label></div>
+
+
         <div class="flex flex-row">
 
             <button type="submit"
@@ -152,7 +163,7 @@
             </tr>
         {/each}
     </table>
-</div>
+    </div></div>
 
 <style>
     .edit:hover,

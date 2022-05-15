@@ -1,10 +1,14 @@
 <script>
-    import { writable } from "svelte/store";
+    import {writable} from "svelte/store";
     import "tw-elements";
+    import {Net} from "../net";
 
     export let sliderData;
+    export let formNet;
 
     let slides = sliderData.slides;
+
+    formNet.slider = slides
 
     function swapUp(i) {
         if (i !== 0) {
@@ -25,7 +29,7 @@
     const newsFormValues = writable({
         title: "",
         description: "",
-        photo: "",
+        src: "",
         position: slides.length + 1,
     });
 
@@ -33,11 +37,18 @@
         const obj = {
             title: $newsFormValues.title,
             description: $newsFormValues.description,
-            photo: $newsFormValues.photo,
+            src: $newsFormValues.src.replace("C:\\fakepath\\",''),
         };
         let position = $newsFormValues.position;
 
         if (formStatus !== -1) del(formStatus);
+
+        console.log(file)
+        Net.sendPhoto(obj.src, file)
+        console.log(file)
+
+
+        file = null
 
         slides.splice(position - 1, 0, obj);
         slides = slides;
@@ -45,7 +56,7 @@
         console.log(slides, slides.length + 1);
         $newsFormValues.title = "";
         $newsFormValues.description = "";
-        $newsFormValues.photo = "";
+        $newsFormValues.src = "";
         $newsFormValues.position = slides.length + 1;
     }
 
@@ -56,7 +67,7 @@
         formStatus = i;
         $newsFormValues.title = obj.title;
         $newsFormValues.description = obj.description;
-        $newsFormValues.photo = obj.photo;
+        $newsFormValues.src = obj.src;
         $newsFormValues.position = i + 1;
     }
 
@@ -69,149 +80,153 @@
     function cancel() {
         $newsFormValues.title = "";
         $newsFormValues.description = "";
-        $newsFormValues.photo = "";
+        $newsFormValues.src = "";
         $newsFormValues.position = slides.length + 1;
         formStatus = -1;
     }
+
+    let file;
 </script>
 
-<div class="flex flex-row border border-gray-300 m-10 p-10">
-    <form
-        on:submit|preventDefault={() => newsFormSubmit()}
-        class="w-1/3  border border-gray-300"
-    >
-        <h3 class="m-4">
-            {#if formStatus === -1}
-                Adding new element:
-            {:else}
-                Editing element (title:{slides[formStatus].title}, photo: {slides[
-                    formStatus
-                ].photo}):
-            {/if}
-        </h3>
-        <div class="m-4">
-            <label>title</label><input
-                type="text"
-                bind:value={$newsFormValues.title}
-                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            />
-        </div>
-        <div class="m-4">
-            <label>description</label><textarea
-                type="text"
-                bind:value={$newsFormValues.description}
-                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            />
-        </div>
-        <div class="m-4">
-            <label>photo</label>
-            <input type="file" accept=".jpg, .jpeg, .png" bind:value={$newsFormValues.photo} on:change={()=>console.log(newsFormValues.photo)} class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" id="formFile">
-          </div>
-        </div>
-        <div class="m-4">
-            <label>position</label><input
-                type="number"
-                min="1"
-                max={formStatus === -1 ? slides.length + 1 : slides.length}
-                bind:value={$newsFormValues.position}
-                class=" form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-            />
-        </div>
-        <div class="flex flex-row">
-            <button
-                type="submit"
-                class="m-4 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-            >
-                Submit
-            </button>
-
-            {#if formStatus !== -1}
+<div class="border border-gray-300 m-10 px-10 pb-10">
+    <h1 class="p-5">Slider Form</h1>
+    <div class="flex flex-row">
+        <form
+                on:submit|preventDefault={() => newsFormSubmit()}
+                class="w-1/3  border border-gray-300"
+        >
+            <h3 class="m-4">
+                {#if formStatus === -1}
+                    Adding new element:
+                {:else}
+                    Editing element: (title:{slides[formStatus].title}
+                {/if}
+            </h3>
+            <div class="m-4">
+                <label>title<input
+                        type="text"
+                        bind:value={$newsFormValues.title}
+                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                /></label>
+            </div>
+            <div class="m-4">
+                <label>description<textarea
+                        type="text"
+                        bind:value={$newsFormValues.description}
+                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"></textarea></label>
+            </div>
+            <div class="m-4">
+                <label>src
+                    <input type="file" accept=".jpg, .jpeg, .png" bind:value={$newsFormValues.src}
+                           class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                           id="formFile"></label>
+            </div>
+            <div class="m-4">
+                <label>position<input
+                        type="number"
+                        min="1"
+                        max={formStatus === -1 ? slides.length + 1 : slides.length}
+                        bind:value={$newsFormValues.position}
+                        class=" form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                /></label>
+            </div>
+            <div class="flex flex-row">
                 <button
-                    on:click={del}
-                    type="button"
-                    class="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                        type="submit"
+                        class="m-4 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
                 >
-                    Delete
+                    Submit
                 </button>
-                <button
-                    on:click={cancel}
-                    type="button"
-                    class="inline-block px-6 py-2 border-2 border-yellow-500 text-yellow-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
-                >
-                    Cancel
-                </button>
-            {/if}
-        </div>
-    </form>
 
-    <table class="ml-4 content-list w-2/3">
-        <tr>
-            <th class="border border-slate-300">title</th>
-            <th class="border border-slate-300">description</th>
-            <th class="border border-slate-300">file</th>
-            <th class="border border-slate-300">edit</th>
-        </tr>
-        {#each slides as oneSlide, i}
+                {#if formStatus !== -1}
+                    <button
+                            on:click={del}
+                            type="button"
+                            class="inline-block px-6 py-2 border-2 border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                    >
+                        Delete
+                    </button>
+                    <button
+                            on:click={cancel}
+                            type="button"
+                            class="inline-block px-6 py-2 border-2 border-yellow-500 text-yellow-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+                    >
+                        Cancel
+                    </button>
+                {/if}
+            </div>
+        </form>
+
+        <table class="ml-4 content-list w-2/3">
             <tr>
-                <td
-                    class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >{oneSlide.title}</td
-                >
-                <td
-                    class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4"
-                    >{oneSlide.description}</td
-                >
-                <td
-                    class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
-                    >{oneSlide.photo}</td
-                >
-                <td
-                    class="border border-slate-300 text-sm text-gray-900 font-light px-3 py-1 whitespace-nowrap"
-                >
-                    <div class="flex flex-row justify-around">
-                        <button
-                            on:click={() => edit(i)}
-                            class="edit px-4 uppercase">edit</button
-                        >
-                        <div class="flex flex-col">
-                            <button class="arrow" on:click={() => swapUp(i)}>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M5 15l7-7 7 7"
-                                    />
-                                </svg>
-                            </button>
-                            <button class="arrow" on:click={() => swapDown(i)}>
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="h-6 w-6"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        d="M19 9l-7 7-7-7"
-                                    />
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
-                </td>
+                <th class="border border-slate-300">title</th>
+                <th class="border border-slate-300">description</th>
+                <th class="border border-slate-300">file</th>
+                <th class="border border-slate-300">edit</th>
             </tr>
-        {/each}
-    </table>
+            {#each slides as oneSlide, i}
+                <tr>
+                    <td
+                            class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    >{oneSlide.title}</td
+                    >
+                    <td
+                            class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4"
+                    >{oneSlide.description}</td
+                    >
+                    <td
+                            class="border border-slate-300 text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap"
+                    >{oneSlide.src}</td
+                    >
+                    <td
+                            class="border border-slate-300 text-sm text-gray-900 font-light px-3 py-1 whitespace-nowrap"
+                    >
+                        <div class="flex flex-row justify-around">
+                            <button
+                                    on:click={() => edit(i)}
+                                    class="edit px-4 uppercase">edit
+                            </button
+                            >
+                            <div class="flex flex-col">
+                                <button class="arrow" on:click={() => swapUp(i)}>
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                    >
+                                        <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M5 15l7-7 7 7"
+                                        />
+                                    </svg>
+                                </button>
+                                <button class="arrow" on:click={() => swapDown(i)}>
+                                    <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-6 w-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            stroke-width="2"
+                                    >
+                                        <path
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                                d="M19 9l-7 7-7-7"
+                                        />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {/each}
+        </table>
+    </div>
 </div>
 
 <style>
