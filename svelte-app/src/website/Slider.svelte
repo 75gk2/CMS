@@ -1,5 +1,6 @@
 <script>
     import 'tw-elements';
+    import {Net} from "../net";
 
     export let sliderData;
 </script>
@@ -30,12 +31,16 @@
     <div class="carousel-inner relative w-full overflow-hidden">
 
         {#each sliderData.slides as slide, i}
-            <div class="carousel-item {i==0?'active':''} relative float-left w-full">
-                <img
-                        src="gfx/{slide.src}"
-                        class="block w-full"
-                        alt="SLIDE: {i} SRC={slide.src}"
-                />
+            <div class="carousel-item {i===0?'active':''} relative float-left w-full">
+                {#await Net.fetchPhoto(slide.src)}
+                    Loading photo...
+                {:then photo}
+                    <img
+                            src="{photo}"
+                            class="block w-full"
+                            alt="SLIDE: {i} SRC={photo}"
+                    />
+                {/await}
                 <div class="carousel-caption hidden md:block absolute text-center maBycJakosZaciemnione">
                     <h5 class="text-xl">{slide.title}</h5>
                     <p>{slide.description}</p>

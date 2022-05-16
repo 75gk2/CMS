@@ -1,5 +1,5 @@
 <script>
-    import 'tw_elements'
+    // import 'tw_elements'
 
     export let footerData;
 </script>
