@@ -8,14 +8,6 @@
     // console.log(data)
 
 
-<<<<<<< HEAD
-<main>
-	<Header headerData = {data.header}/>
-	<Slider sliderData = {data.content.slider}></Slider>
-	<News newsData = {data.content.news}></News>
-	<Footer footerData = {data.footer}>xdxd</Footer>
-</main>
-=======
 </script>
 <Router>
     <nav>
@@ -25,4 +17,3 @@
     <Route path="/" component="{Website}"/>
     <Route path="/form" component="{MainForm}"/>
 </Router>
->>>>>>> master
