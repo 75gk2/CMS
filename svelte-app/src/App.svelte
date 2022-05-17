@@ -13,6 +13,7 @@
     <nav>
         <Link to="/">Home</Link>
         <Link to="/form">Form</Link>
+        <Link to="/form">Zaloguj</Link>
     </nav>
     <Route path="/" component="{Website}"/>
     <Route path="/form" component="{MainForm}"/>
