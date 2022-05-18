@@ -1,0 +1,11 @@
+{% extends 'bootstrap/base.html' %} {% import "bootstrap/wtf.html" as wtf %} {% block head %} {{ super() }} {% endblock %}} {% block title %}{{ title }}{% endblock %} {% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+     <div class="container">
+          <a class="navbar-brand" href="/">Home</a>
+         <a class="navbar-brand" href="/loginTemplate">Login</a>
+         <a class="navbar-brand" href="/registerTemplate">Register</a>
+         <a class="navbar-brand" href="/guestResult">Guest</a>
+         <a class="navbar-brand" href="/headerForm">Header Form</a>
+     </div>
+</nav>
+{% endblock %}
