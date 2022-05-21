@@ -2,6 +2,7 @@
     export let headerData;
     import {Net} from "../net";
 
+    console.log(headerData.menu.links)
 </script>
 
 <header class="text-gray-600 body-font">
@@ -21,7 +22,7 @@
         </div>
         <nav class="md:mr-auto md:ml-4 md:py-1 md:pl-4 md:border-l md:border-gray-400	flex flex-wrap items-center text-base justify-center">
             {#each headerData.menu.links as link}
-                {#if link.dropDown}
+                {#if link.dropDown == "dsaasdasd"}
                     <div class="drop-down">
                         <a href={link.href}>{link.text}</a>
                         <ul>

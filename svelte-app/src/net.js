@@ -48,10 +48,10 @@ export class FormNet {
 
 
     static updateData() {
-        // this.json.header = this.header
+        this.json.header = this.header
         this.json.content.slider.slides = this.slider
         this.json.content.news = this.news
-        // this.json.footer = this.footer
+        this.json.footer = this.footer
         console.log(this.json)
 
         const str = JSON.stringify(this.json);

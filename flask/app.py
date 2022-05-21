@@ -1,10 +1,8 @@
-import json
-import flask_cors
-
-from flask import Flask, render_template, request, Response
-from wtforms import Form, RadioField
-from flask_wtf import FlaskForm
 import sqlite3
+
+import flask_cors
+from flask import Flask, request, Response
+from wtforms import Form, RadioField
 
 
 # connection = sqlite3.Connection("CMS_REPO.sqlite")
@@ -136,15 +134,6 @@ def insert_gfx():
         return Response(status=500)
 
 # {{ wtf.quick_form(form, action=adr)}}
-
-@app.route('/')
-def hello():
-    return render_template("index.html", form=MenuForm(), adr="menu")
-
-
-@app.route('/menu', methods=["GET", "POST"])
-def edit_data_by_admin():
-    login = request.form['login']
 
 
 if __name__ == '__main__':

@@ -2,14 +2,14 @@
     import {writable} from "svelte/store";
     import 'tw-elements'
 
-    export let headerData;
+    export let footerData;
     export let formNet;
 
-    formNet.header = headerData
+    formNet.footer = footerData
 
-    let links = headerData.menu.links
+    let links = footerData.links
     console.log(links)
-    formNet.header.menu.links = links
+    formNet.footer.links = links
 
 
     function swapUp(i) {
@@ -82,7 +82,7 @@
     }
 </script>
 <div class="border border-gray-300 m-10 px-10 pb-10">
-    <h1 class="p-5">Header Form</h1>
+    <h1 class="p-5">footer Form</h1>
     <div class="flex flex-row">
         <form on:submit|preventDefault={()=>newsFormSubmit()} class="w-1/3  border border-gray-300">
             <h3 class="m-4">

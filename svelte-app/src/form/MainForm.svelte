@@ -11,6 +11,7 @@
     import HeaderForm from "./HeaderForm.svelte";
     import SliderForm from "./SliderForm.svelte";
     import {FormNet} from "../net";
+    import FooterForm from "./FooterForm.svelte";
 
 </script>
 {#await data_json}
@@ -19,5 +20,6 @@
     <HeaderForm formNet={FormNet} headerData = {data.header}></HeaderForm>
     <SliderForm formNet={FormNet} sliderData={data.content.slider}></SliderForm>
     <NewsForm formNet={FormNet} newsData={data.content.news}></NewsForm>
+    <FooterForm formNet={FormNet} footerData = {data.footer}></FooterForm>
     <button on:load = {()=>{FormNet.json = data}} on:click={()=>FormNet.updateData()}>UPDATE</button>
 {/await}

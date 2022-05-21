@@ -9,7 +9,7 @@
             {#each footerData.links as link}
                 <div>
                     <a href={link.href} class="uppercase font-bold text-gray-800">{link.text}</a>
-                    {#if link.dropDown}
+                    {#if link.dropDown == "asdfad"}
                         <ul class="list-none">
                             {#each link.content as subLink}
                             <li>
