@@ -376,12 +376,6 @@ def editData():
 def loginServiceController():
     login = request.form['login']
     passwd = request.form['passwd']
-    who = request.args.get()
-    site = False
-    print(who)
-    if who == "site":
-        site = True
-
 
     if (login == "admin" and passwd == "admin"):
         session['login'] = login
@@ -398,6 +392,85 @@ def loginServiceController():
     else:
         session['info'] = "Niepoprawny login lub hasło"
         return redirect("/")
+
+
+
+
+
+
+
+
+@app.route('/registerServiceSite', methods=["POST"])
+def registerServiceSite():
+    login = request.form['login']
+    passwd = request.form['passwd']
+    session = {}
+    try:
+        loginCursor.execute(f"SELECT * from '{DBASE}' WHERE LOGIN = '{login}'")
+        r = loginCursor.fetchall()
+        if (len(r) != 0):
+            0 / 0
+        loginCursor.execute(f"INSERT INTO '{DBASE}' (LOGIN, PASSWD) VALUES ('{login}', '{passwd}')")
+        loginConnector.commit()
+        session['info'] = "Utworzono konto"
+        session['login'] = login
+        session['passwd'] = passwd
+        session['status'] = 200
+        return session
+    except:
+        session['status'] = 400
+        session['info'] = "Nie udało się utworzyć użytkownika. Spróbuj zmienić login"
+        return session
+
+
+@app.route("/updateUserSite", methods=["GET", "POST"])
+def editDataSite():
+    login = request.form['login']
+    loginOld = request.form['loginOld']
+    passwd = request.form['passwd']
+    session = {}
+    try:
+        loginCursor.execute(f"SELECT * from '{DBASE}' WHERE LOGIN = '{login}'")
+        r = loginCursor.fetchall()
+        if (len(r) != 0 and login != loginOld):
+            0 / 0
+        session['login'] = login
+        session['passwd'] = passwd
+        session['status'] = 200
+        session['info'] = "zaaktualizowano pomyślnie dane"
+        loginCursor.execute(f"UPDATE {DBASE} SET LOGIN ='{login}', PASSWD = '{passwd}' WHERE LOGIN = '{loginOld}'")
+        loginConnector.commit()
+    except:
+        session['info'] = "Wystąpił błąd, Spróbuj wybrać inny login"
+        session['status'] = 400
+    finally:
+        return session
+
+
+@app.route('/loginServiceSite', methods=["POST"])
+def loginServiceSite():
+    login = request.form['login']
+    passwd = request.form['passwd']
+    session = {}
+    if (login == "admin" and passwd == "admin"):
+        session['login'] = login
+        session['passwd'] = passwd
+        session['admin'] = True
+        session['status'] = 1000
+        return session
+
+    loginCursor.execute(f"SELECT * FROM '{DBASE}' WHERE LOGIN = '{login}' AND PASSWD = '{passwd}'")
+    sqlRes = loginCursor.fetchall()
+
+    if (len(sqlRes) == 1):
+        session['login'] = login
+        session['passwd'] = passwd
+        session['status'] = 200
+        return session
+    else:
+        session['info'] = "Niepoprawny login lub hasło"
+        session['status'] = 400
+        return session
 
 
 @app.errorhandler(404)

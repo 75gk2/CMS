@@ -23,7 +23,6 @@ export class Net {
         let data = new FormData()
         data.append('file', blob, "file")
 
-        alert()
         let res = fetch('http://127.0.0.1:5000/gfx/insert?name=' + src, {
             method: "POST",
             body: data

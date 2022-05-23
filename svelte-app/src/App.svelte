@@ -5,6 +5,7 @@
     import NewsForm from "./form/NewsForm.svelte";
     import LoginForm from "./LoginForm.svelte";
 
+    import {Login} from "./login";
     // import * as data from './data.json'
     // console.log(data)
 
@@ -13,10 +14,22 @@
 <Router>
     <nav>
         <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
+
+        {#if Login.form.isAdmin}
+            <h1>
+                ZALOGOWANO JAKO ADMIN
+            </h1>
+        {:else }
+            {#if Login.form.isAdmin}
+
+            {:else }
+
+                <Link to="/login">Login</Link>
+            {/if}
+        {/if}
     </nav>
     <Route path="/" component="{Website}"/>
-    <Route path="/login" component="{LoginForm}"/>
+    <Route path="/login" component="{LoginForm}" login={Login}/>
     <Route path="/form" component="{MainForm}"/>
 </Router>
 
