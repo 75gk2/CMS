@@ -1,10 +1,16 @@
+import {writable} from "svelte/store";
+
 export class Login{
-    static form={
+    static info(){
+        return this.form.info
+    }
+    static form=writable({
         login:null,
         passwd:null,
         isAdmin:false,
-        isLogged:false
-    }
+        isLogged:false,
+        info:""
+    })
 
     static login(login, passwd){
         let data = new FormData()
@@ -16,21 +22,18 @@ export class Login{
         })
         res.then(a=>a.json())
             .then(a=>{
-                if (a.status == 1000){
-                    this.form.login={
-                        login:a.login,
-                        passwd:a.passwd,
-                        isAdmin: true,
-                        isLogged: true
-                    }
+                this.form.info = a.info
+                if (a.status === 1000){
+                        this.form.login = a.login
+                        this.form.passwd = a.passwd
+                        this.form.isAdmin =  true
+                        this.form.isLogged =  true
                 }
-                else if (a.status == 200){
-                    this.form.login={
-                        login:a.login,
-                        passwd:a.passwd,
-                        isAdmin: false,
-                        isLogged: true
-                    }
+                else if (a.status === 200){
+                    this.form.login = a.login
+                    this.form.passwd = a.passwd
+                    this.form.isAdmin =  false
+                    this.form.isLogged =  true
                 }
             })
 

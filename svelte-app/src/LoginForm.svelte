@@ -13,7 +13,8 @@
     })
 
 </script>
-{#if login.form.isLogged}
+<h1>{()=>{return login.info()}}</h1>
+{#if !login.form.isLogged}
 <div class = "flex justify-around w-full">
 <div class="block p-6 rounded-lg shadow-lg bg-white max-w-sm">
     <form on:submit|preventDefault={()=>login.login($loginFormValues.login, $loginFormValues.passwd)}>

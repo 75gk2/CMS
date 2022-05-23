@@ -48,7 +48,7 @@ def repo_init():
     response = cursor.fetchall()
     if response[0][0] == 0:
         save_file_to_repo("data.json", "json", open_binary_local_file("baseWebsite/data.json"))
-        save_file_to_repo("logo.png", "png", open_binary_local_file(f"baseWebsite/gfx/logo.png"))
+        save_file_to_repo("logo.png", "png", open_binary_local_file(f"baseWebsite/gfx/logo2.png"))
         for i in range(5):
             save_file_to_repo(f"slider/photo-{i + 1}.jpg", "jpg",
                               open_binary_local_file(f"baseWebsite/gfx/slider/photo-{i + 1}.jpg"))

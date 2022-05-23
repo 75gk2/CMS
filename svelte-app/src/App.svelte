@@ -19,11 +19,10 @@
             {#if Login.form.isAdmin}
                 Zalogowano
             {:else }
-                <Link to="/login">Login</Link>
+                <Link to="/form">Form</Link>
             {/if}
         {:else }
-
-            <Link to="/form">Form</Link>
+            <Link to="/login">Login</Link>
         {/if}
     </nav>
     <Route path="/" component="{Website}"/>
