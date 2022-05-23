@@ -7,9 +7,9 @@ from flask_bs4 import Bootstrap
 # import requests
 
 app = Flask(__name__)
-boostrap = Bootstrap(app)
 app.config['SECRET_KEY'] = 'Qwerty123!'
 
+boostrap = Bootstrap(app)
 links = []
 
 @app.route('/')

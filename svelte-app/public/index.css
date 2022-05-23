@@ -3717,6 +3717,10 @@ textarea.form-control.is-invalid {
   margin-left: auto;
   margin-right: auto;
 }
+.mx-0 {
+  margin-left: 0px;
+  margin-right: 0px;
+}
 .mb-4 {
   margin-bottom: 1rem;
 }
@@ -3735,6 +3739,12 @@ textarea.form-control.is-invalid {
 .mr-2 {
   margin-right: 0.5rem;
 }
+.mb-6 {
+  margin-bottom: 1.5rem;
+}
+.mt-6 {
+  margin-top: 1.5rem;
+}
 .block {
   display: block;
 }
@@ -3749,6 +3759,9 @@ textarea.form-control.is-invalid {
 }
 .table {
   display: table;
+}
+.grid {
+  display: grid;
 }
 .hidden {
   display: none;
@@ -3789,6 +3802,9 @@ textarea.form-control.is-invalid {
 .max-w-sm {
   max-width: 24rem;
 }
+.max-w-md {
+  max-width: 28rem;
+}
 .transform {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
@@ -3803,6 +3819,9 @@ textarea.form-control.is-invalid {
 }
 .appearance-none {
   appearance: none;
+}
+.grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 .flex-row {
   flex-direction: row;
@@ -3827,6 +3846,9 @@ textarea.form-control.is-invalid {
 }
 .justify-evenly {
   justify-content: space-evenly;
+}
+.gap-4 {
+  gap: 1rem;
 }
 .overflow-hidden {
   overflow: hidden;
@@ -4019,6 +4041,10 @@ textarea.form-control.is-invalid {
   --tw-text-opacity: 1;
   color: rgb(31 41 55 / var(--tw-text-opacity));
 }
+.text-blue-600 {
+  --tw-text-opacity: 1;
+  color: rgb(37 99 235 / var(--tw-text-opacity));
+}
 .shadow-md {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
@@ -4073,6 +4099,10 @@ textarea.form-control.is-invalid {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
 }
+.hover\:text-blue-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
+}
 .hover\:no-underline:hover {
   text-decoration-line: none;
 }
@@ -4108,6 +4138,10 @@ textarea.form-control.is-invalid {
 .focus\:text-gray-700:focus {
   --tw-text-opacity: 1;
   color: rgb(55 65 81 / var(--tw-text-opacity));
+}
+.focus\:text-blue-700:focus {
+  --tw-text-opacity: 1;
+  color: rgb(29 78 216 / var(--tw-text-opacity));
 }
 .focus\:no-underline:focus {
   text-decoration-line: none;
