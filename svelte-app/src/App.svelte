@@ -15,17 +15,15 @@
     <nav>
         <Link to="/">Home</Link>
 
-        {#if Login.form.isAdmin}
-            <h1>
-                ZALOGOWANO JAKO ADMIN
-            </h1>
-        {:else }
+        {#if Login.form.isLogged}
             {#if Login.form.isAdmin}
-
+                Zalogowano
             {:else }
-
                 <Link to="/login">Login</Link>
             {/if}
+        {:else }
+
+            <Link to="/form">Form</Link>
         {/if}
     </nav>
     <Route path="/" component="{Website}"/>
