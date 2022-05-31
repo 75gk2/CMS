@@ -6,6 +6,7 @@
     let validLinks = writable({
         validLinks :[]
     })
+    let linki = []
     const find = async () => {
         const response = await fetch('http://127.0.0.1:5000/data')
         const json = await response.json()
@@ -19,17 +20,20 @@
         json.header.menu.links.forEach(e => chkLink(e))
         json.content.news.forEach(e => chkLink(e))
         json.footer.links.forEach(e => chkLink(e))
-        $validLinks.validLinks = await Promise.all(tab.filter(async (e)=>{
+        $validLinks.validLinks = []
+        linki =( await Promise.all(tab.map(async (e)=>{
             console.log(e)
             let res = await Article.getArticle(e)
             if ((res.title).includes(text)){
-                console.log(res, text)
+                console.log("VALID",res)
                 return e
             }
             if ((res.description).includes(text)) {
+                console.log("VALID",res)
                 return  e
             }
-        }))
+            return null
+        })))
     }
 </script>
 
@@ -46,9 +50,11 @@
     </button>
 </div>
 <ul>
-    {#each $validLinks.validLinks as thisLink}
-        <li>
-            <a href="{thisLink}">{thisLink}</a>
-        </li>
+    {#each linki as thisLink}
+        {#if thisLink!==null}
+            <li class = "p-10">
+                <a href="{thisLink}">{thisLink}</a>
+            </li>
+        {/if}
     {/each}
 </ul>
