@@ -29,9 +29,8 @@
     </div>
 
     <div class="carousel-inner relative w-full overflow-hidden">
-
         {#each sliderData.slides as slide, i}
-            <div class="carousel-item {i===0?'active':''} relative float-left w-full">
+            <div class="carousel-item {i===0?'active':''} relative float-left w-full" data-bs-interval="{sliderData.time *1000}">
                 {#await Net.fetchPhoto(slide.src)}
                     Loading photo...
                 {:then photo}

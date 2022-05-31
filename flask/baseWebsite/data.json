@@ -10,24 +10,24 @@
       "links": [
         {
           "text": "Home",
-          "href": "/home"
+          "href": "article/home"
         },
         {
           "text": "news",
-          "href": "/news"
+          "href": "article/news"
         },
         {
           "text": "gallery",
-          "href": "/gallery",
+          "href": "article/gallery",
           "dropDown": true,
           "content": [
             {
               "text": "2022",
-              "href": "/gallery#2022"
+              "href": "article/gallery#2022"
             },
             {
               "text": "2021",
-              "href": "/gallery#2021"
+              "href": "article/gallery#2021"
             }
           ]
         }
@@ -68,17 +68,17 @@
       {
         "title": "This is title 1",
         "content": "This is content 1",
-        "href": "/news1"
+        "href": "article/news1"
       },
       {
         "title": "This is title 2",
         "content": "This is content 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-        "href": "/news2"
+        "href": "article/news2"
       },
       {
         "title": "This is title 3",
         "content": "This is content 3",
-        "href": "/news3"
+        "href": "article/news3"
       }
     ]
   },
@@ -86,24 +86,24 @@
     "links": [
       {
         "text": "Home",
-        "href": "/home"
+        "href": "article/home"
       },
       {
         "text": "news",
-        "href": "/news"
+        "href": "article/news"
       },
       {
         "text": "gallery",
-        "href": "/gallery",
+        "href": "article/gallery",
         "dropDown": true,
         "content": [
           {
             "text": "2022",
-            "href": "/gallery#2022"
+            "href": "article/gallery#2022"
           },
           {
             "text": "2021",
-            "href": "/gallery#2021"
+            "href": "article/gallery#2021"
           }
         ]
       }

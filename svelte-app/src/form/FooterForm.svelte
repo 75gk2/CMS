@@ -38,7 +38,7 @@
     function newsFormSubmit() {
         const obj = {
             text: $newsFormValues.text,
-            href: $newsFormValues.href,
+            href: "article/"+$newsFormValues.href.replace(/^article\//,'').replace(/[^a-zA-Z]/g,''),
             dropDown: $newsFormValues.dropDown
         }
         let position = $newsFormValues.position
@@ -169,8 +169,14 @@
                     </td>
                 </tr>
             {/each}
+            {#each links.length>3?Array(0):Array(3 - links.length) as _ }<div>&nbsp</div>{/each}
         </table>
     </div>
+    <label>Company Name
+        <input id="copy" type="text"
+        bind:value={footerData.companyName}
+        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
+    </label>
 </div>
 
 <style>

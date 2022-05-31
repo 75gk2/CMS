@@ -4,50 +4,50 @@ export class Login{
     static info(){
         return this.form.info
     }
-    static form=writable({
-        login:null,
-        passwd:null,
-        isAdmin:false,
-        isLogged:false,
-        info:""
-    })
-
-    static login(login, passwd){
+    static async login(login, passwd) {
         let data = new FormData()
-        data.append("login",login)
-        data.append("passwd",passwd)
-        let res = fetch('http://127.0.0.1:5000/loginServiceSite', {
-            method: "POST",
-            body: data
-        })
-        res.then(a=>a.json())
-            .then(a=>{
-                this.form.info = a.info
-                if (a.status === 1000){
-                        this.form.login = a.login
-                        this.form.passwd = a.passwd
-                        this.form.isAdmin =  true
-                        this.form.isLogged =  true
-                }
-                else if (a.status === 200){
-                    this.form.login = a.login
-                    this.form.passwd = a.passwd
-                    this.form.isAdmin =  false
-                    this.form.isLogged =  true
-                }
-            })
+        data.append("login", login)
+        data.append("passwd", passwd)
+        let responsePromise = await fetch('http://127.0.0.1:5000/loginServiceSite', {method: "POST", body: data})
+        console.log(responsePromise)
+        const a = await responsePromise.json()
+        console.log(a)
 
-        console.log(res)
+        let obj = {}
+
+        if (a.status === 1000)
+            obj =  {
+                login: a.login,
+                passwd: a.passwd,
+                isAdmin: true,
+                isLogged: true,
+                info: "ZALOGOWANO JAKO ADMIN"
+            }
+        else if (a.status === 200)
+            obj =  {
+                login: a.login,
+                passwd: a.passwd,
+                isAdmin: false,
+                isLogged: true,
+            info: 'ZALOGOWANO JAKO '+a.login
+            }
+        else obj =  {
+                isAdmin: false,
+                isLogged: false,
+                info: a.info
+            }
+        console.log(obj)
+        return obj
     }
-    static register(login, passwd){
+    static async register(login, passwd) {
         let data = new FormData()
-        data.append("login",login)
-        data.append("passwd",passwd)
-        let res = fetch('http://127.0.0.1:5000/registerServiceSite', {
+        data.append("login", login)
+        data.append("passwd", passwd)
+        let res = await fetch('http://127.0.0.1:5000/registerServiceSite', {
             method: "POST",
             body: data
         })
-        res.then(a=>a.json())
-            .then(a=>console.log(a))
+        let json = res.json()
+        return json
     }
 }

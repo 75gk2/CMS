@@ -66,7 +66,8 @@ def get_file_from_db(name):
     try:
         return (result[0][0], result[0][1])
     except:
-        return False
+        return "False"
+
 
 def count_files_by_name(name):
     connection = sqlite3.Connection("CMS_REPO.sqlite")
@@ -110,6 +111,38 @@ def update_data():
         return Response(status=500)
 
 
+@app.route("/article/update", methods=["POST"])
+def update_article():
+    files = request.files
+    file = files.get('file')
+    href = request.args["href"]
+    name = f"article/{href}"
+    print(href)
+    try:
+        if count_files_by_name(name) == 0:
+            save_file_to_repo(name, "json", file.read())
+        else:
+            update_file_in_repo(name, "json", file.read())
+        return Response(status=200)
+    except:
+        return Response(status=500)
+
+
+@app.route("/article/get", methods
+=["GET", "POST"])
+def get_article():
+    href = request.args["href"]
+    print(href)
+    try:
+        res = get_file_from_db(f"article/{href}")
+        if res == "False":
+            0 / 0
+        return res
+    except:
+        print("NI MO!")
+        return Response(status=202)
+
+
 @app.route("/gfx", methods=["GET", "POST"])
 def return_gfx():
     name = request.args["name"]
@@ -122,7 +155,6 @@ def return_gfx2():
 
     name = request.form["name"]
     return get_file_from_db(name)
-
 
 
 @app.route("/gfx/insert", methods=["GET", "POST"])
@@ -139,6 +171,7 @@ def insert_gfx():
     except Exception as ex:
         return Response(status=500)
 
+
 # {{ wtf.quick_form(form, action=adr)}}
 # FRONTEND
 
@@ -154,26 +187,32 @@ def loginTemplate():
 @app.route('/headerForm')
 def headerForm():
     return render_template('headerForm.html')
+
+
 @app.route('/newsForm')
 def newsForm():
     return render_template('newsForm.html')
+
+
 @app.route('/footerForm')
 def footerForm():
     return render_template('footerForm.html')
+
 
 @app.route('/getLinks')
 def getLinks():
     global links
     text = request.args.get("linkText")
     href = request.args.get("linkHref")
-    link = [text,href]
+    link = [text, href]
     links.append(link)
     return render_template('formResults.html', links=links, action="clearLinks")
+
 
 @app.route("/clearLinks")
 def clearLinks():
     global links
-    links=[]
+    links = []
     return render_template('formResults.html', links=links, action="clearLinks")
 
 
@@ -182,24 +221,26 @@ def registerTemplate():
     return render_template('loginTemplate.html', label="Register", action="registerCheck")
 
 
-#musi byc jakies sprawdzanie czy w bazie, ale nwm jak to zrobic
+# musi byc jakies sprawdzanie czy w bazie, ale nwm jak to zrobic
 inBase = True
 
-#jeszcze musi sprawdzic czy admin
+
+# jeszcze musi sprawdzic czy admin
 @app.route('/loginCheck')
 def loginCheck():
     login = request.args.get("login")
-    if(inBase):
-        if(login == "admin"):
+    if (inBase):
+        if (login == "admin"):
             return render_template('homePage.html')
         return render_template('404.html')
     else:
         return render_template('500.html')
 
+
 # tu jesli jest to nie dodaje
 @app.route('/registerCheck')
 def registerCheck():
-    if(inBase):
+    if (inBase):
         return render_template('500.html')
     else:
         return render_template('404.html')
@@ -235,8 +276,6 @@ class editForm(FlaskForm):
     submit = SubmitField('Zatwierdź')
 
 
-
-
 @app.route('/')
 def index():
     form = userForm()
@@ -261,7 +300,6 @@ def register():
                            action="/registerServiceController",
                            title="rejestrowanie",
                            desc="Podaj nowy login i hasło  użytkownika", info=info)
-
 
 
 @app.route("/adminInterface")
@@ -394,12 +432,6 @@ def loginServiceController():
         return redirect("/")
 
 
-
-
-
-
-
-
 @app.route('/registerServiceSite', methods=["POST"])
 def registerServiceSite():
     login = request.form['login']
@@ -476,6 +508,7 @@ def loginServiceSite():
 @app.errorhandler(404)
 def pageNotFound(error):
     return render_template('404.html', title='404'), 404
+
 
 @app.errorhandler(500)
 def internalServerError(error):

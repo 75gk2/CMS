@@ -1,15 +1,33 @@
 <script>
     import {writable} from "svelte/store";
     import "tw-elements";
-    import {Net} from "../net";
+    import {Article, Net} from "../net";
 
-    export let sliderData;
-    export let formNet;
 
-    let slides = sliderData.slides;
+    const links = (async () => {
+        const response = await fetch('http://127.0.0.1:5000/data')
+        const json = await response.json()
+        console.log(json)
+        const tab = []
+        function chkLink(l) {
+            if (!tab.includes(l.href) && l.href !== "")
+                tab.push(l.href)
+        }
+        json.header.menu.links.forEach(e => chkLink(e))
+        json.content.news.forEach(e => chkLink(e))
+        json.footer.links.forEach(e => chkLink(e))
+        $href.href = tab[0]
+        sync()
+        console.log(tab)
+        return tab
+    })()
 
-    formNet.slider.slides = slides
-    formNet.slider.time = sliderData.time
+    let href = writable({
+        href: ""
+    })
+    let commentsHolder = []
+    let slides = []
+    console.log(slides.length)
 
     function swapUp(i) {
         if (i !== 0) {
@@ -34,11 +52,16 @@
         position: slides.length + 1,
     });
 
+    const siteFormValues = writable({
+        title: "",
+        description: ""
+    });
+
     function newsFormSubmit() {
         const obj = {
             title: $newsFormValues.title,
             description: $newsFormValues.description,
-            src: $newsFormValues.src.replace("C:\\fakepath\\",''),
+            src: $newsFormValues.src.replace("C:\\fakepath\\", ''),
         };
         let position = $newsFormValues.position;
 
@@ -46,7 +69,7 @@
 
         console.log(file)
 
-        if(file != null) Net.sendPhoto(obj.src, file)
+        if (file != null) Net.sendPhoto(obj.src, file)
 
 
         file = null
@@ -91,17 +114,63 @@
     function onFileSelected(e) {
         file = e.target.files[0];
     }
+
+    function send() {
+        const obj = {
+            title: $siteFormValues.title,
+            description: $siteFormValues.description,
+            images: slides,
+            comments:""
+        }
+        console.log(obj)
+        Article.updateArticle(obj, $href.href)
+    }
+    function sync(){
+        console.log($href.href)
+        let res = Article.getArticle($href.href)
+        res.then((data)=>{
+            $siteFormValues.title = data.title
+            $siteFormValues.description = data.description
+            slides = data.images
+            commentsHolder = data.comments
+        })
+    }
 </script>
+{#await links}
+    Loading...
+{:then links}
+    <div class="flex justify-center mt-20">
+        <div class="mb-3 xl:w-96">
+            <select bind:value={$href.href} on:change={sync} on:load={sync}
+                    class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    aria-label="Default select example">
+                {#each links as link,i}
+                        <option>{link}</option>
+                {/each}
+            </select>
+        </div>
+    </div>
+{/await}
 
 <div class="border border-gray-300 m-10 px-10 pb-10">
-    <h1 class="p-5">Slider Form</h1>
-
-    <label>time: {formNet.slider.time}s
-        <input id="copy" type="range" min="1" max = "10"
-               bind:value={formNet.slider.time}
-               class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"/>
-    </label>
+    <h1 class="p-5">Form</h1>
+    <div class="m-4">
+        <label>title<input
+                type="text"
+                bind:value={$siteFormValues.title}
+                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+        /></label>
+    </div>
+    <div class="m-4">
+        <label>description<textarea
+                type="text"
+                bind:value={$siteFormValues.description}
+                class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"></textarea></label>
+    </div>
+    <br><br>
+    <h1 class="p-5">Gallery</h1>
     <div class="flex flex-row">
+
         <form
                 on:submit|preventDefault={() => newsFormSubmit()}
                 class="w-1/3  border border-gray-300"
@@ -230,9 +299,15 @@
                     </td>
                 </tr>
             {/each}
+
             {#each slides.length>3?Array(0):Array(3 - slides.length) as _ }<div>&nbsp</div>{/each}
         </table>
     </div>
+    <button on:click={send} type="button"
+            class="m-4 px-6 py-2.5 bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg transition duration-150 ease-in-out">
+        UPDATE
+    </button>
+
 </div>
 
 <style>

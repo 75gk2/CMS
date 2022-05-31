@@ -38,7 +38,7 @@
     function newsFormSubmit() {
         const obj = {
             text: $newsFormValues.text,
-            href: $newsFormValues.href,
+            href: "article/"+$newsFormValues.href.replace(/^article\//,'').replace(/[^a-zA-Z]/g,''),
             dropDown: $newsFormValues.dropDown
         }
         let position = $newsFormValues.position
@@ -83,6 +83,14 @@
 </script>
 <div class="border border-gray-300 m-10 px-10 pb-10">
     <h1 class="p-5">Header Form</h1>
+    <div class="mb-3 xl:w-96">
+        <select bind:value={headerData.menu.type}
+                class="form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                aria-label="Default select example">
+            <option>poziome</option>
+            <option>dropdown</option>
+        </select>
+    </div>
     <div class="flex flex-row">
         <form on:submit|preventDefault={()=>newsFormSubmit()} class="w-1/3  border border-gray-300">
             <h3 class="m-4">
@@ -169,6 +177,8 @@
                     </td>
                 </tr>
             {/each}
+
+            {#each links.length>3?Array(0):Array(3 - links.length) as _ }<div>&nbsp</div>{/each}
         </table>
     </div>
 </div>

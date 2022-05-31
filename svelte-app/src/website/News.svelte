@@ -4,7 +4,7 @@
     export let newsData;
 </script>
 
-<div class = "flex flex-wrap justify-center">
+<div class = "flex flex-wrap justify-center pt-10">
     {#each newsData as news}
 
         <div class="flex justify-center w-3/12">

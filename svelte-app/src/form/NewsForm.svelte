@@ -36,7 +36,7 @@
         const obj = {
             title: $newsFormValues.title,
             content: $newsFormValues.content,
-            href: $newsFormValues.href
+            href: "article/"+$newsFormValues.href.replace(/^article\//,'').replace(/[^a-zA-Z]/g,''),
         }
         let position = $newsFormValues.position
 
@@ -161,6 +161,7 @@
                 </td>
             </tr>
         {/each}
+        {#each newsData.length>3?Array(0):Array(3 - newsData.length) as _ }<div>&nbsp</div>{/each}
     </table>
     </div></div>
 
