@@ -21,3 +21,10 @@
     <News newsData={data.content.news}></News>
     <Footer footerData={data.footer}></Footer>
 {/await}
+
+
+<style>
+    div{
+        background-color: black;
+    }
+</style>

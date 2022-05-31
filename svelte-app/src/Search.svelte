@@ -19,24 +19,17 @@
         json.header.menu.links.forEach(e => chkLink(e))
         json.content.news.forEach(e => chkLink(e))
         json.footer.links.forEach(e => chkLink(e))
-        $validLinks.validLinks = []
-
-        tab.forEach((e) => {
-            let res = Article.getArticle(e)
-            console.log(res.status)
-            if (res.status !== -1) {
-                res.then(a => {
-                    if ((a.title).includes(text)){
-                        $validLinks.validLinks.push(a.href)
-                        console.log($validLinks.validLinks)
-                    }
-                    if ((a.description).includes(text)) {
-                        $validLinks.validLinks.push(a.href)
-                        console.log($validLinks.validLinks)
-                    }
-                })
+        $validLinks.validLinks = await Promise.all(tab.filter(async (e)=>{
+            console.log(e)
+            let res = await Article.getArticle(e)
+            if ((res.title).includes(text)){
+                console.log(res, text)
+                return e
             }
-        })
+            if ((res.description).includes(text)) {
+                return  e
+            }
+        }))
     }
 </script>
 

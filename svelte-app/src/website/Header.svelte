@@ -44,7 +44,7 @@
         <div>
             <div class="dropdown relative">
                 <a class=" dropdown-toggle px-12 py-5 bg-blue-600 text-white font-medium leading-tight uppercase rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg active:text-white transition duration-150 ease-in-out flex items-center whitespace-nowrap"
-                   href="#123" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                   href="" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                     Menu
                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" class="w-2 ml-2"
                          role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
