@@ -5,6 +5,7 @@
       "width": "100px",
       "height": "100px"
     },
+    "type": "poziome",
     "name": "CMS",
     "menu": {
       "links": [
